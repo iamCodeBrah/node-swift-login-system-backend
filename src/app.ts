@@ -1,7 +1,7 @@
 import express, { Application, Router, Request, Response, NextFunction } from 'express';
 const app: Application = express();
 const cookieParser = require('cookie-parser');
-
+   
 app.use(express.json());
 app.use(cookieParser());
 
