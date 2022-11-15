@@ -40,7 +40,6 @@ const createAndAddJwtToRes = function createAndAddJwtToRes(email: string, userna
 }
 
 
-
 module.exports = {
     saveUser: saveUser,
     createAndAddJwtToRes: createAndAddJwtToRes,
