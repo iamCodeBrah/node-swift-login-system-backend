@@ -1,6 +1,7 @@
 import express, { Application, Router, Request, Response, NextFunction } from 'express';
 const app: Application = express();
 const cookieParser = require('cookie-parser');
+const { checkUser, requireUser } = require('./middleware/auth_middleware');
    
 app.use(express.json());
 app.use(cookieParser());
@@ -8,8 +9,11 @@ app.use(cookieParser());
 const authRoutes: Router = require('./routes/auth_routes');
 const dataRoutes: Router = require('./routes/data_routes');
 
+app.post('*', checkUser);
+app.get('*', checkUser);
+
 app.use('/auth', authRoutes);
-app.use('/data', dataRoutes);
+app.use('/data', requireUser, dataRoutes);
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
    res.status(200).json({ success: 'Hello Server'});

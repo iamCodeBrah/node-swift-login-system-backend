@@ -4,7 +4,7 @@ const data_functions = require('../functions/data_functions');
 
 router.post('/set-data', async (req: Request, res: Response, next: NextFunction) => {
     const data: string = req.body.data;
-    const email: string | undefined = "CodeBrah1233@gmail.com" // req.app.locals.user.email;
+    const email: string | undefined = req.app.locals.user.email;
 
     if (typeof  data !== 'string') {
         res.status(500).json({ error: 'The data must be a string.' }); return;
@@ -23,7 +23,7 @@ router.post('/set-data', async (req: Request, res: Response, next: NextFunction)
 });
 
 router.get('/get-data', async (req: Request, res: Response, next: NextFunction) => {
-    const email: string | undefined = "CodeBrah1233@gmail.com" // req.app.locals.user.email;
+    const email: string | undefined = req.app.locals.user.email;
 
     if (email === undefined) {
         res.status(500).json({ error: 'You must sign in to do that' }); return;
