@@ -4,13 +4,17 @@ const cookieParser = require('cookie-parser');
 const { checkUser, requireUser } = require('./middleware/auth_middleware');
    
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const authRoutes: Router = require('./routes/auth_routes');
-const dataRoutes: Router = require('./routes/data_routes');
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
 
 app.post('*', checkUser);
 app.get('*', checkUser);
+
+const authRoutes: Router = require('./routes/auth_routes');
+const dataRoutes: Router = require('./routes/data_routes');
 
 app.use('/auth', authRoutes);
 app.use('/data', requireUser, dataRoutes);

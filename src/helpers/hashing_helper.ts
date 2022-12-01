@@ -9,6 +9,18 @@ const hashPassword = async (req: Request, res: Response, next: NextFunction) => 
     next();
 };
 
+const hashAndReturnPassword = async (password: string): Promise<string> => {
+    return new Promise<string>((async (resolve, reject) => {
+        try {
+            const salt: string = await bcrypt.genSalt(12);
+            const hashedPass: string = await  bcrypt.hash(password, salt);
+            resolve(hashedPass);
+        } catch (err) {
+            reject(err); return;
+        }
+    }));
+}
+
 const compareHash = async (dbHashedPassword: string, clearPassword: string): Promise<null> => {
     return new Promise<null>((async (resolve, reject) => {
         const passwordResp: Error | boolean = await bcrypt.compare(clearPassword, dbHashedPassword);
@@ -27,5 +39,6 @@ const compareHash = async (dbHashedPassword: string, clearPassword: string): Pro
 
 module.exports = {
     hashPassword: hashPassword,
+    hashAndReturnPassword: hashAndReturnPassword,
     compareHash: compareHash,
 }
